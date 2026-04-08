@@ -1,85 +1,68 @@
-# jst
-/**
- * JAVASCRIPT PRACTICAL EXAM - ALL SOLUTIONS
- */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>JS Exam Results</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; background: #f4f4f4; }
+        .task { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h3 { color: #2c3e50; margin-top: 0; }
+        pre { background: #272822; color: #f8f8f2; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>JavaScript Exam Output</h1>
+    <div id="output"></div>
 
-// --- Task 1: Reverse each word in a sentence ---
-const reverseWords = (sentence) => {
-  return sentence.split(' ')
-    .map(word => word.split('').reverse().join(''))
-    .join(' ');
-};
+    <script>
+        const logToScreen = (task, data) => {
+            const div = document.createElement('div');
+            div.className = 'task';
+            div.innerHTML = `<h3>Task ${task}</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            document.getElementById('output').appendChild(div);
+        };
 
-// --- Task 2: Word frequency counter ---
-const getWordFrequency = (text) => {
-  const words = text.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
-  return words.reduce((acc, word) => {
-    if (word) acc[word] = (acc[word] || 0) + 1;
-    return acc;
-  }, {});
-};
+        // --- Task 1 ---
+        const t1 = (s) => s.split(' ').map(w => w.split('').reverse().join('')).join(' ');
+        logToScreen(1, t1("Hello World From Wisdom Sprouts"));
 
-// --- Task 3: Filter users by age (> 18) ---
-const filterAdults = (users) => users.filter(u => u.age > 18);
+        // --- Task 2 ---
+        const t2 = (t) => {
+            const res = {};
+            t.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).forEach(w => { if(w) res[w] = (res[w]||0)+1; });
+            return res;
+        };
+        logToScreen(2, t2("Learning JavaScript is fun! Fun and easy."));
 
-// --- Task 4: Sort products by price ascending ---
-const sortProducts = (products) => [...products].sort((a, b) => a.price - b.price);
+        // --- Task 3 ---
+        const users = [{name:"Alice", age:22}, {name:"Bob", age:17}, {name:"Charlie", age:19}];
+        logToScreen(3, users.filter(u => u.age > 18));
 
-// --- Task 5: URL Slug Generator ---
-const createSlug = (title) => {
-  return title.toLowerCase()
-    .replace(/[^\w\s]/g, '')
-    .trim()
-    .replace(/\s+/g, '-');
-};
+        // --- Task 4 ---
+        const products = [{name:"Keyboard", price:499}, {name:"Monitor", price:8999}, {name:"Mouse", price:299}];
+        logToScreen(4, [...products].sort((a,b) => a.price - b.price));
 
-// --- Task 6: Group words by length ---
-const groupByLength = (words) => {
-  return words.reduce((acc, word) => {
-    const len = word.length;
-    acc[len] = acc[len] || [];
-    acc[len].push(word);
-    return acc;
-  }, {});
-};
+        // --- Task 5 ---
+        const t5 = (t) => t.toLowerCase().replace(/[^\w\s]/g, '').trim().split(/\s+/).join('-');
+        logToScreen(5, t5("Learn JavaScript in 30 Days!"));
 
-// --- Task 7: Debounce utility ---
-function debounce(func, delay) {
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => func(...args), delay);
-  };
-}
+        // --- Task 6 ---
+        const t6 = (arr) => arr.reduce((acc, w) => {
+            const l = w.length;
+            acc[l] = acc[l] || [];
+            acc[l].push(w);
+            return acc;
+        }, {});
+        logToScreen(6, t6(["dog", "apple", "sun", "table", "cat", "pie"]));
 
-// --- Task 8: Deep Copy Object ---
-// (Note: structuredClone is the modern standard, JSON is the classic fallback)
-const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
+        // --- Task 8 (Deep Copy) ---
+        const obj = { name: "John", address: { city: "New York" } };
+        const copy = JSON.parse(JSON.stringify(obj));
+        logToScreen(8, { original: obj, isCopySuccessful: copy !== obj });
 
-// --- Task 9: Sequential Async Tasks ---
-async function runSequentialTasks() {
-  const taskIds = ['A', 'B', 'C'];
-  for (const id of taskIds) {
-    const delay = Math.random() * 1500 + 500; // 0.5 to 2 seconds
-    await new Promise(res => setTimeout(res, delay));
-    console.log(`Task ${id} completed`);
-  }
-  console.log("All tasks completed");
-}
+        // --- Task 10 (Calculator) ---
+        const t10 = (exp) => { try { return eval(exp); } catch(e) { return "Error"; } };
+        logToScreen(10, { expression: "3 + 5 * 2 - 4 / 2", result: t10("3 + 5 * 2 - 4 / 2") });
 
-// --- Task 10: Simple Calculator with Precedence ---
-const calculate = (expr) => {
-  try {
-    return Function(`"use strict"; return (${expr})`)();
-  } catch {
-    return "Error";
-  }
-};
-
-/** * TEST CASES (Optional)
- */
-console.log("Task 1:", reverseWords("Hello World"));
-console.log("Task 2:", getWordFrequency("JavaScript is fun! Fun..."));
-console.log("Task 5:", createSlug("Learn JavaScript in 30 Days!"));
-console.log("Task 10:", calculate("3 + 5 * 2 - 4 / 2"));
-runSequentialTasks();
+    </script>
+</body>
+</html>
